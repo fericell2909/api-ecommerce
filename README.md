@@ -1,6 +1,6 @@
 ## Interfaz del Programa de Aplicación
 
-TaxLab API es una aplicación desarrollada en laravel que incluye autenticación JWT y documentación en el formato Swagger API.  
+Api Ecommerce es una aplicación desarrollada en laravel que incluye autenticación JWT y documentación en el formato Swagger API para un desafío en periferia-it-pe  
 
 ---
 
