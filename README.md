@@ -145,23 +145,6 @@ Valor por defecto. Valor: 6379
 #MAIL_MAILER
 Valor por defecto. Valor: 
 
-#MAIL_HOST
-Valor por defecto. Valor: 
-
-#MAIL_PORT
-Valor por defecto. Valor: 
-
-#MAIL_USERNAME
-Valor por defecto. Valor: 
-
-#MAIL_PASSWORD
-Valor por defecto. Valor: 
-
-#MAIL_ENCRYPTION
-Valor por defecto. Valor: tls
-
-#MAIL_FROM_ADDRESS
-Valor por defecto. Valor: noreply@taxlab.cl
 
 #MAIL_FROM_NAME
 Valor por defecto. Valor: "${APP_NAME}"
