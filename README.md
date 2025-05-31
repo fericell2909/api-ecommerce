@@ -71,7 +71,7 @@ Nombre de la aplicación. Valor : Api Ecommerce
 Indica el entorno de la aplicacion. Valor: local - test - production
 
 #APP_KEY
-Indica el key para encriptar. Valor : base64:srw/tKI1DmZ/y+ItmUt5NuefwqJgEUF1js+ZUXSzf1g=
+Indica el key para encriptar. Valor : 
 
 #APP_DEBUG
 Indica si la aplicación muestra el debug. Valor: true
@@ -155,7 +155,7 @@ Valor por defecto. Valor: 587
 Valor por defecto. Valor: pedrorafael.rojodiaz@gmail.com
 
 #MAIL_PASSWORD
-Valor por defecto. Valor: xsmtpsib-d58c45760df2a439171b65e6cbc0e7789e0f65fb353aaaa7c34e8d8630ebc552-EkfRXZQSy0GgcsV2
+Valor por defecto. Valor: 
 
 #MAIL_ENCRYPTION
 Valor por defecto. Valor: tls
@@ -195,7 +195,7 @@ Valor por defecto list.
 Valor por defecto 43200
 
 #JWT_SECRET
-Valor por defecto. Valor: KjS58WvaiGjGWWMST2m9n9rlPuu66AvmpWpddd2k1EtSX6M3Vx8szt3MuLWNlt20
+Valor por defecto. Valor: 
 
 #URL_WEBHOOK_DISCORD
 Valor por defecto vacío.
