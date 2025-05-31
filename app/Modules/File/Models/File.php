@@ -2,7 +2,6 @@
 
 namespace App\Modules\File\Models;
 
-use App\Modules\TipoArchivoEspacioTrabajo\Models\TipoArchivoEspacioTrabajo;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -30,7 +29,7 @@ class File extends Model
      */
     protected $fillable = ['nombre_original', 'tamanio', 'extension', 'tipo', 'hash', 'ruta_url','status_id','user_id'];
 
-
+    protected $appends = ['url_s3'];
 
     protected $hidden = ['created_at','updated_at','ruta_url'];
 
@@ -43,15 +42,9 @@ class File extends Model
         return $this->belongsTo('App\Modules\Api\Models\Status');
     }
 
-    public function espaciosTrabajos()
+    public function getUrlS3Attribute()
     {
-        return $this->belongsToMany('App\Modules\EspacioTrabajo\Models\EspacioTrabajo', 'espacio_trabajos_files', 'file_id', 'espacio_trabajo_id')
-            ->withPivot('espacio_trabajo_id','file_id','user_id','tipo_archivo_espacio_trabajo_id','created_at','updated_at');
-
+        return asset('storage/' . $this->attributes['ruta_url']);
     }
 
-    public function tipoArchivoEspacioTrabajo()
-    {
-        return $this->hasOne(TipoArchivoEspacioTrabajo::class, 'id', 'tipo_archivo_espacio_trabajo_id');
-    }
 }

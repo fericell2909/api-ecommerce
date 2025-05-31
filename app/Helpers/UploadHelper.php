@@ -69,11 +69,18 @@ class UploadHelper
 
   public static function subirArchivoAS3($folder, $file){
 
-    $ruta_path = Storage::disk('s3')->put($folder, $file);
+    $ruta_path = Storage::disk('s3')->put($folder, $file, 'public');
 
     return $ruta_path;
 
   }
+
+  public static function subirArchivoLocal($folder, $file){
+        // Guarda el archivo en storage/app/public/$folder con visibilidad pública
+        $ruta_path = \Storage::disk('public')->putFile($folder, $file, 'public');
+
+        return $ruta_path; // devuelve la ruta relativa, ejemplo: 'products/image1.jpg'
+    }
 
 
   public static function descargarArchivoDesdeS3($extension,$rutaArchivo,$nombre_original)

@@ -23,9 +23,6 @@ Route::prefix('/shop/admin')
 	Route::delete('/product/{id}', [ProductController::class, 'delete']);
 	Route::post('/product/{id}/relate', [ProductController::class, 'syncList']);
 
-    Route::get('/product/evaluation/list', 'EvaluationController@list');
-	Route::delete('/product/evaluation/{id}', 'EvaluationController@delete');
-
 
     Route::get('/producttop/list', [ProducttopController::class, 'list']);
     Route::get('/producttop/listclient', [ProducttopController::class, 'listclient']);

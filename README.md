@@ -55,6 +55,11 @@ php artisan l5-swagger:generate
 11. Para ver la documentación generada.
    http://127.0.0.1:8000/api/documentation
 
+12. Ejecutar el comando de storage link
+
+```bash
+    php artisan storage:link
+```
 
 ### Pruebas
 

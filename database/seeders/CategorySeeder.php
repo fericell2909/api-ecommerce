@@ -11,6 +11,7 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
+        $this->print = new \Symfony\Component\Console\Output\ConsoleOutput();
 
         // Primero creamos 5 categorías padre
         $parents = [];
@@ -23,6 +24,7 @@ class CategorySeeder extends Seeder
                 'name' => $faker->unique()->words(2, true),
                 'slug' => Str::slug($faker->unique()->words(2, true))
             ]);
+            $this->print->writeln("Categoria ". $i . " creada: " . $parent->name);
             $parents[] = $parent;
         }
 

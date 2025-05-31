@@ -1458,17 +1458,73 @@
                 "tags": [
                     "Ecommerce Público"
                 ],
-                "summary": "Obtiene los datos de un Usuario por su ID.",
-                "description": "Obtiene los datos de un Usuario por su ID. Se necesita estar autenticado para realizar la solicitud. El Rol Supervisor Tributario tiene acceso a este endpoint.",
+                "summary": "Obtiene los datos de todas las categorías",
+                "description": "Obtiene los datos de todas las categorías. Se necesita estar autenticado para realizar la solicitud.",
                 "operationId": "listCategories",
+                "responses": {
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/categories/{slug}": {
+            "get": {
+                "tags": [
+                    "Ecommerce Público"
+                ],
+                "summary": "Obtiene los datos de una categoría por su slug.",
+                "description": "Obtiene los datos de una categoría por su slug.",
+                "operationId": "showCategory",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "slug",
                         "in": "path",
-                        "description": "id, eg; 1",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1478,7 +1534,179 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                    "$ref": "#/components/schemas/ResponseCategory200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/product/list": {
+            "get": {
+                "tags": [
+                    "Ecommerce Público"
+                ],
+                "summary": "Listar los Productos",
+                "description": "Listar los Productos",
+                "operationId": "ListProduct",
+                "parameters": [
+                    {
+                        "name": "category_slug",
+                        "in": "query",
+                        "description": "category_slug",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "rows",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "rows",
+                        "in": "query",
+                        "description": "rows",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 12
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos encontrados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseProduct200PaginateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/shop/product/{param}/{value}": {
+            "get": {
+                "tags": [
+                    "Ecommerce Público"
+                ],
+                "summary": "Obtiene los datos del producto por Slug",
+                "description": "Obtiene los datos del producto por Slug",
+                "operationId": "showProduct",
+                "parameters": [
+                    {
+                        "name": "param",
+                        "in": "path",
+                        "description": "param",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "slug"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "value",
+                        "in": "path",
+                        "description": "value",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos encontrados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseProduct200ShowSchema"
                                 }
                             }
                         }
@@ -2908,6 +3136,235 @@
                                 }
                             },
                             "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseCategory200ShowSchema": {
+                "description": "Respuesta de Obtención de Categoría",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos encontrados exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "created_by": 1,
+                            "parent_id": null,
+                            "order": 1,
+                            "icon": "fa-icon-alias",
+                            "name": "commodi molestias",
+                            "slug": "tempora-occaecati"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseProduct200PaginateSchema": {
+                "description": "Respuesta de los datos encontrados paginados",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos Obtenidos Exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "sku": {
+                                            "type": "string",
+                                            "example": "SGHZGSBJTI"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "quidem voluptatibus occaecati"
+                                        },
+                                        "slug": {
+                                            "type": "string",
+                                            "example": "deleniti-nostrum-in"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description de ejemplo"
+                                        },
+                                        "short_description": {
+                                            "type": "string",
+                                            "example": "short description de ejemplo"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1000
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Marco"
+                                                },
+                                                "surnames": {
+                                                    "type": "string",
+                                                    "example": "Estrada López"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "mestrada@gux.tech"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "status": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Activo"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "first_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/shop/product/list?rows=2&paginate=2"
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "last_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/shop/product/list?rows=2&paginate=2"
+                            },
+                            "links": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "example": "&laquo; Anterior"
+                                        },
+                                        "active": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "next_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/shop/product/list?rows=2&paginate=2"
+                            },
+                            "path": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/shop/product/list?rows=2&paginate=2"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "prev_page_url": {
+                                "type": "null",
+                                "example": null
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 3
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseProduct200ShowSchema": {
+                "description": "Respuesta de Obtención de un Producto",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos encontrados exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "created_by": 1,
+                            "sku": "VORTXS9WG5",
+                            "name": "quia sequi delectus",
+                            "slug": "dignissimos-magni-excepturi",
+                            "description": "Descripcion del Producto",
+                            "short_description": "descripcion corta del producto",
+                            "total_sales": 406,
+                            "unit": "kg",
+                            "price": 69,
+                            "quantity": 5
                         }
                     }
                 },

@@ -62,14 +62,14 @@ class FileRepository
     {
         $data =  [];
 
-        $data['user_id'] = $this->user->id;
+        $data['user_id'] = $this->user->id ?? 1; // Default to user ID 1 if not authenticated
         $data['nombre_original'] =  $file->getClientOriginalName();
         $data['tamanio'] =  $file->getSize();
         $data['extension'] = $file->getClientOriginalExtension();
         $data['tipo'] = $file->getMimeType();
         $data['hash'] = Str::random(25);
 
-        $file_path = UploadHelper::subirArchivoAS3($this->folder, $file);//Storage::disk('s3')->put($folder, $file);
+        $file_path = UploadHelper::subirArchivoLocal($this->folder, $file);//Storage::disk('s3')->put($folder, $file);
 
         if($file_path == false) {
             return null;
