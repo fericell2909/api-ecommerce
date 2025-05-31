@@ -143,16 +143,16 @@ Valor por defecto. Valor: null
 Valor por defecto. Valor: 6379
 
 #MAIL_MAILER
-Valor por defecto. Valor: smtp
+Valor por defecto. Valor: 
 
 #MAIL_HOST
-Valor por defecto. Valor: smtp-relay.brevo.com
+Valor por defecto. Valor: 
 
 #MAIL_PORT
-Valor por defecto. Valor: 587
+Valor por defecto. Valor: 
 
 #MAIL_USERNAME
-Valor por defecto. Valor: pedrorafael.rojodiaz@gmail.com
+Valor por defecto. Valor: 
 
 #MAIL_PASSWORD
 Valor por defecto. Valor: 
