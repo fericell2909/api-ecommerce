@@ -1,0 +1,148 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Support\Str;
+use App\Helpers\UploadHelper;
+use App\Modules\CrudGenerator\Interfaces\CrudInterface;
+use {{modelNamespace}}{{modelName}};
+use App\Modules\Auth\Models\User;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
+
+class DummyClass implements CrudInterface
+{
+    /**
+     * Authenticated User Instance.
+     *
+     * @var User
+     */
+    public User | null $user;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->user = Auth::guard()->user();
+    }
+
+    /**
+     * Get All Objects.
+     *
+     * @return collections Array of Product Collection
+     */
+    public function getAll()
+    {
+        return {{modelName}}::with(['user' => function ($query) {
+                    $query->select('id', 'name', 'surnames','email');
+                },'status' => function ($query) {
+                    $query->select('id', 'name');
+                }])->get();
+    }
+
+    public function getPaginatedData(array $opts)
+    {
+        $opts = filterOptionsArray($opts, [
+			'per_page' => ['int', env('PAGINATION_RECORDS')],
+			'current_page' => ['int', 1],
+			'name' => 'string',
+			'status_id' => ['int', -1],
+			'id' =>  'int',
+			'user_id' => ['int', -1],
+		]);
+
+        $opts['current_page'] = max($opts['current_page'], 1);
+		$opts['per_page'] = min(max($opts['per_page'], 1), 50);
+
+        $builder = {{modelName}}::select('id','name','status_id','user_id');
+
+        if ($opts['id']) {
+			$builder->where(function ($query) use ($opts) {
+				$query->where({{modelName}}::TABLE . '.id', $opts['id']);
+			});
+		}
+
+        if ($opts['name']) {
+			$builder->where({{modelName}}::TABLE . '.name', 'like',  '%' . $opts['name'] . '%');
+		}
+
+        if ($opts['status_id'] && $opts['status_id'] !== -1) {
+			$builder->where({{modelName}}::TABLE . '.status_id', '=',   $opts['status_id'] );
+		}
+
+        $results = $builder
+			->with(['user' => function ($query) {
+                    $query->select('id', 'name', 'surnames','email');
+                },'status' => function ($query) {
+                    $query->select('id', 'name');
+                }])
+			->orderBy('created_at', 'desc')
+			->paginate($opts['per_page'], ['*'], 'page', $opts['current_page']);
+
+        $results->appends([
+			'name' => $opts['name'],
+			'status_id' => $opts['status_id'],
+			'per_page' => $opts['per_page'],
+			'current_page' => $opts['current_page']
+		]);
+
+		return $results;
+
+    }
+
+    public function create(array $data): {{modelName}}|null
+    {
+
+        $data['user_id'] = $this->user->id;
+
+        $obj = {{modelName}}::create($data);
+
+        return $this->getByID($object['id']);
+
+    }
+
+    public function changestatus(int $id): {{modelName}}|null
+    {
+        $object = {{modelName}}::find($id);
+
+        if (is_null($object)) {
+            return null;
+        }
+
+        // 1: Activo 2: Inactivo ==>  Estados generales.
+        $object->update(['status_id' => $object->status_id == 1 ? 2 : 1 ]);
+
+        // Finally return the updated object.
+        return $this->getByID($object->id);
+
+    }
+
+    public function getByID(int $id): {{modelName}}|null
+    {
+
+        return {{modelName}}::with(['user' => function ($query) {
+                    $query->select('id', 'name', 'surnames','email');
+                },'status' => function ($query) {
+                    $query->select('id', 'name');
+                }])->find($id);
+
+    }
+
+    public function update(int $id, array $data): {{modelName}}|null
+    {
+        $object = {{modelName}}::find($id);
+
+        if (is_null($object)) {
+            return null;
+        }
+
+        $data['user_id'] = $this->user->id;
+
+        // If everything is OK, then update.
+        $object->update($data);
+
+        // Finally return the updated product.
+        return $this->getByID($object->id);
+    }
+}

@@ -1,0 +1,112 @@
+{
+    "fields": [
+        {
+            "name": "code@string||5",
+            "type": "unique@nullable||false@comment||Codigo referencial(por parte del negocio) de la plantilla de papel de trabajo."
+        },
+        {
+            "name": "name@string||255",
+            "type": "unique@nullable||false@comment||Nombre referencial de la plantilla de papel de trabajo."
+        },
+        {
+            "name": "plantilla@json",
+            "type": "nullable||false@comment||Formato de la plantilla en json de papel de trabajo@default||{}"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "default||1"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "code",
+                    "rules": "required|max:5|unique:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,code",
+                    "messages": "name.required#El código de la plantilla de papel de trabajo es requerido.||name.max#El código de la plantilla de papel de trabajo no debe ser mayor a 5 caracteres."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,name",
+                    "messages": "name.required#El nombre de la plantilla de papel de trabajo es requerido.||name.max#El nombre de la plantilla de papel de trabajo no debe ser mayor a 255 caracteres."
+                },
+                {
+                    "field": "plantilla",
+                    "rules": "required",
+                    "messages": "plantilla.required#La plantilla de papel de trabajo es requerido."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,id",
+                    "messages": "id.required#El ID de la plantilla del papel del trabajo es requerido.||id.integer#El ID de la plantilla del papel del trabajo debe ser un número.||id.exists#El ID de la plantilla del papel del trabajo no existe."
+                },
+                {
+                    "field": "code",
+                    "rules": "required|max:5|unique:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,code",
+                    "messages": "name.required#El código de la plantilla de papel de trabajo es requerido.||name.max#El código de la plantilla de papel de trabajo no debe ser mayor a 5 caracteres."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,name",
+                    "messages": "name.required#El nombre de la plantilla de papel de trabajo es requerido.||name.max#El nombre de la plantilla de papel de trabajo no debe ser mayor a 255 caracteres."
+                },
+                {
+                    "field": "plantilla",
+                    "rules": "required",
+                    "messages": "plantilla.required#La plantilla de papel de trabajo es requerido."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\PlantillaPapelTrabajo\\Models\\PlantillaPapelTrabajo,id",
+                    "messages": "id.required#El ID de la plantilla del papel del trabajo es requerido.||id.integer#El ID de la plantilla del papel del trabajo debe ser un número.||id.exists#El ID de la plantilla del papel del trabajo no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea una nueva plantilla de papel de trabajo.",
+        "swagger-create-description" : "Crea una nueva plantilla de papel de trabajo.",
+        "swagger-update-summary" : "Actualiza una plantilla de papel de trabajo.",
+        "swagger-update-description" : "Actualiza una plantilla de papel de trabajo.",
+        "swagger-changestatus-summary" : "Cambia el estado de una plantilla de papel de trabajo.",
+        "swagger-changestatus-description" : "Cambia el estado de una plantilla de papel de trabajo  de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de una plantilla de papel de trabajo.",
+        "swagger-show-description" : "Obtiene los datos de una plantilla de papel de trabajo existente.",
+        "swagger-list-summary" : "Listado de plantillas de papel de trabajo",
+        "swagger-list-description" : "Obtiene el Listado de todas  las plantilla de papel de trabajo sin paginación.",
+        "swagger-search-summary" : "Listado de todas las plantillas de papel de trabajo paginados y búsqueda",
+        "swagger-search-description" : "Obtiene el listado de todas las plantillas de papel de trabajo paginados y con búsqueda por criterios."
+
+    }
+}

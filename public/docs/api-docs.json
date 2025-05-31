@@ -1,0 +1,2860 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ECOMMERCE API Documentación",
+        "description": "ECOMMERCE API Documentación",
+        "contact": {
+            "email": "fericell2909@gmail.com"
+        },
+        "license": {
+            "name": "GPL2",
+            "url": "https://devsenv.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-000: Iniciar Sesión",
+                "description": "HU-000: Iniciar Sesión",
+                "operationId": "8502ae0150b1a339dccf1ee3bd965a72",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "fericell29091@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "abcd1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Acceso Correcto.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLogin200Schema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitu Inválida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLogin400Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso Restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLogin403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLogin500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-000 : Cerrar Sesión",
+                "description": "Cerrar Sesión del Usuario Autenticado.",
+                "operationId": "263f484d50d35eb12eebb198f799c85f",
+                "responses": {
+                    "200": {
+                        "description": "Cierre de Sesión.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLogout200Schema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/forgot/password": {
+            "post": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-017 Cambiar Contraseña(Enviar Email)",
+                "description": "Envía un correo al usuario con un enlace para cambiar su contraseña",
+                "operationId": "ca6e8507ba7688e996e8eddf1fc7b3f5",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "example@example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Correo Enviado Extiosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForgotPassword200Schema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en Solicitud",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForgotPassword400Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/auth/forgot/password/validate/{token}": {
+            "get": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-017 Cambiar Contraseña (Validar Token)",
+                "description": "Se valida que el token Exista y que no haya expirado.",
+                "operationId": "9d0599ac11eb25a020e0e010891cda8b",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna proceso exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResetPassword200Schema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solictud erronea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResetPassword400Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/auth/forgot/password/change": {
+            "put": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-017 Cambiar Contraseña (Actualizar Contraseña con Token)",
+                "description": "Change Password by sent token email",
+                "operationId": "change",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "password",
+                                    "confirm_password"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "example": "2Ywesdtsdvsññnlñasdkjas"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "abcd1234"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string",
+                                        "example": "abcd1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorna proceso exitoso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResetPasswordChange200Schema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solictud erronea",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResetPasswordChange400Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/user/create": {
+            "post": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "HU-019: Crear Nuevo Usuario",
+                "description": "HU-019: Crear Nuevo Usuario y la contraseña inicial le llegará al correo electrónico que se especifique.",
+                "operationId": "fa03189695826c04a86a84ce3ba663c7",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Marco"
+                                    },
+                                    "surnames": {
+                                        "type": "string",
+                                        "example": "Estrada López"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "demo@bruzzoneygonzalez.com"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "role_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Creación de Usuario Exitoso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser400CreateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/me": {
+            "get": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Obtener los datos del usuario autenticado",
+                "description": "Obtener los datos del usuario autenticado",
+                "operationId": "meUser",
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Obtención de Datos Exitoso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/get/{id}": {
+            "get": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Obtiene los datos de un Usuario por su ID.",
+                "description": "Obtiene los datos de un Usuario por su ID. Se necesita estar autenticado para realizar la solicitud. El Rol Supervisor Tributario tiene acceso a este endpoint.",
+                "operationId": "showUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos encontrados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/me/update": {
+            "put": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Actualiza los datos del usuario autenticado",
+                "description": "Actualiza los datos del usuario autenticado",
+                "operationId": "updatemeUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Marco"
+                                    },
+                                    "surnames": {
+                                        "type": "string",
+                                        "example": "Estrada López"
+                                    },
+                                    "request_new_password": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Actualización Exitosa.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser400UpdatemeSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/me/update/password": {
+            "put": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Actualiza la contraseña del usuario autenticado",
+                "description": "Actualiza la contraseña del usuario autenticado",
+                "operationId": "updatemepasswordUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "abcd1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Actualización de Contraseña Exitosa.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser400UpdatemepasswordSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/update": {
+            "put": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Actualiza los datos del usuario",
+                "description": "Actualiza los datos del usuario. Solo es Supervisor Tributario tiene acceso a realizar esta acción.",
+                "operationId": "updateUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Marco"
+                                    },
+                                    "surnames": {
+                                        "type": "string",
+                                        "example": "Estrada López"
+                                    },
+                                    "request_new_password": {
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "role_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Actualización Exitosa.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser400UpdateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/paginate": {
+            "post": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Listado de Usuarios paginados y búsqueda",
+                "description": "Obtiene el Listado de Usuarios paginados y con búsqueda por criterios.Solo el supervisor Tributario tiene acceso a esta acción",
+                "operationId": "paginateUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "surnames": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "email": {
+                                        "type": "integer",
+                                        "example": ""
+                                    },
+                                    "per_page": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "current_page": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Listado como  un Arreglo de elementos Paginados.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200PaginateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/changestatus": {
+            "put": {
+                "tags": [
+                    "Gestión de Usuarios"
+                ],
+                "summary": "Cambia el estado de un Usuario.",
+                "description": "Cambia el estado un Usuario de activo/inactivo. Solo el Supervisor Tributario tiene acceso a esta acción.",
+                "operationId": "changestatusUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de Cambio de Estado Exitoso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser400ChangeStatusSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/files/upload": {
+            "post": {
+                "tags": [
+                    "Archivos"
+                ],
+                "summary": "Subir un Archivo.",
+                "description": "Subir un Archivo al repositorio de S3.",
+                "operationId": "uploadArchivo",
+                "requestBody": {
+                    "description": "Archivo a cargar",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "description": "Archivo a cargar",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "El Archivo ha sido subido exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseFile200CreateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en los datos que se necesita para la solicitud.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseFile400CreateSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontró el recurso en el servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/files/get/{id}": {
+            "get": {
+                "tags": [
+                    "Archivos"
+                ],
+                "summary": "Obtiene los datos de un Archivo.",
+                "description": "Obtiene los datos de un Archivo.",
+                "operationId": "showArchivo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos encontrados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseFile200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/files/download/{id}": {
+            "get": {
+                "tags": [
+                    "Archivos"
+                ],
+                "summary": "Descargar el Archivo.",
+                "description": "Descargar el Archivo.",
+                "operationId": "downloadArchivo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Respuesta de descarga de archivo",
+                        "headers": {
+                            "Content-Type": {
+                                "description": "Tipo de contenido del archivo",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "image/jpeg"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "Disposición del contenido (descarga de archivo)",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "attachment; filename=archivo.jpg"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El Archivo no ha sido encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/files/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Archivos"
+                ],
+                "summary": "Eliminar el Archivo.",
+                "description": "Eliminar el Archivo del repositorio de S3.",
+                "operationId": "deleteArchivo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "El Archivo ha sido eliminado correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseFile200DeleteSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El Archivo no ha sido encontrado. El Archivo no ha sido eliminado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/roles/list": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Listado de Roles.",
+                "description": "Obtiene el Listado de todos los Roles del sistema.",
+                "operationId": "indexRoles",
+                "responses": {
+                    "200": {
+                        "description": "Listado de todos los roles.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseRoles200ListSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ResponseGeneric400Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Error en los datos de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "atributo": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "El atributo es requerido."
+                                }
+                            },
+                            "atributo1": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El atributo1 es requerida.",
+                                        "El formato del atributo1 no es válido.",
+                                        "El atributo1 debe tener al menos n caracteres.",
+                                        "El atributo1 debe tener máximo n caracteres."
+                                    ]
+                                }
+                            },
+                            "atributo2": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El atributo2 es requerida.",
+                                        "el atributo2 debe tener al menos n caracteres.",
+                                        "El atributo2 debe tener máximo n caracteres.",
+                                        "EL atributo2 no coincide con el atributo1"
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGeneric401Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Indica que no puede acceder a la solicitud ya que no esta autenticado.",
+                        "type": "string",
+                        "example": "Acceso no Autenticado."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGeneric403Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Indica que no puede acceder a la solicitud ya que no esta autenticado.",
+                        "type": "string",
+                        "example": "Acceso no Autenticado. El usuario no tiene el rol para acceder a este recurso"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGeneric404Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Indica que no se encontro la solicitud en el servidor.",
+                        "type": "string",
+                        "example": "La solicitud no ha sido encontrada en el servidor."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGeneric500Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Mensaje que se obtiene de getMessage de la Excepción.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error en el servidor"
+                    },
+                    "errors": {
+                        "type": "null"
+                    },
+                    "data": {
+                        "type": "null"
+                    },
+                    "ex": {
+                        "description": "Se transforma a string el objeto de la Excepción ocurrida en el servidor",
+                        "type": "string",
+                        "example": "..."
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGenericChangeStatus200Schema": {
+                "description": "Respuesta genérica para la cambiar el estado exitoso",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El objeto ha sido cambiado de estado exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "attribute": "El atributo",
+                            "atributo2": 1,
+                            "atributo3": "01-01-2023",
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Juan",
+                                "surnames": "Perez",
+                                "email": "example@byg.com"
+                            },
+                            "status_id": 1,
+                            "status": {
+                                "id": 1,
+                                "name": "Activo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGenericCreate200Schema": {
+                "description": "Respuesta genérica para la creación exitosa de un objeto.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El objeto ha sido creado exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "attribute": "El atributo",
+                            "atributo2": 1,
+                            "atributo3": "01-01-2023"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGenericShow200Schema": {
+                "description": "El objeto a buscar por el ID ha sido encontrado exitosamente.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Respuesta genérica para datos encontrados exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "attribute": "El atributo",
+                            "atributo2": 1,
+                            "atributo3": "01-01-2023",
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Juan",
+                                "surnames": "Perez",
+                                "email": "example@byg.com"
+                            },
+                            "status_id": 1,
+                            "status": {
+                                "id": 1,
+                                "name": "Activo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseGenericUpdate200Schema": {
+                "description": "Respuesta genérica para la actualización exitosa de un objeto.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El objeto ha sido actualizado exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "attribute": "El atributo",
+                            "atributo2": 1,
+                            "atributo3": "01-01-2023",
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Juan",
+                                "surnames": "Perez",
+                                "email": "example@byg.com"
+                            },
+                            "status_id": 1,
+                            "status": {
+                                "id": 1,
+                                "name": "Activo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ForgotPassword200Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Correo Enviado Extiosamente"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ForgotPassword400Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error al reiniciar contraseña.",
+                        "type": "string",
+                        "example": "Error al reiniciar contraseña."
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El email es requerido",
+                                        "El email no debe ser mayor a 255 caracteres",
+                                        "El email no existe."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseLogin200Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Acceso Correcto"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "properties": {
+                            "token_type": {
+                                "description": "Tipo de Token",
+                                "type": "string",
+                                "example": "Bearer"
+                            },
+                            "accessToken": {
+                                "description": "Token de Acceso",
+                                "type": "string",
+                                "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+                            },
+                            "expires_in": {
+                                "description": "Valor Expresado en segundos",
+                                "type": "integer",
+                                "example": 3600
+                            },
+                            "id": {
+                                "description": "ID usuario logueado.",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "email": {
+                                "description": "Correo Electrónico de usuario autenticado",
+                                "type": "string",
+                                "example": "fericell2909@gmail.com"
+                            },
+                            "name": {
+                                "description": "Nombres de usuario autenticado",
+                                "type": "string",
+                                "example": "Marco"
+                            },
+                            "surnames": {
+                                "description": "Apellidos de usuario autenticado",
+                                "type": "string",
+                                "example": "Estrada López"
+                            },
+                            "language": {
+                                "description": "Lenguaje de usuario autenticado",
+                                "type": "string",
+                                "example": "es"
+                            },
+                            "uroles": {
+                                "description": "Roles asociados al usuario authenticado",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "Código de Rol",
+                                            "type": "string",
+                                            "example": "ST"
+                                        },
+                                        "name": {
+                                            "description": "Nombre del Rol",
+                                            "type": "string",
+                                            "example": "Supervisor Tributario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "roles": {
+                                "description": "Listado de Roles que se encuentran en el sistema.",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "code": {
+                                            "description": "Código de Rol",
+                                            "type": "string",
+                                            "example": "AT"
+                                        },
+                                        "name": {
+                                            "description": "Nombre del Rol",
+                                            "type": "string",
+                                            "example": "Analista Tributario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseLogin400Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Puede venir mensaje de Error accediendo a la cuenta o correo electrónico sin verificar.",
+                        "type": "string",
+                        "example": "Error accediendo a la cuenta."
+                    },
+                    "errors": {
+                        "properties": {
+                            "email": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El e-mail debe tener al menos 8 caracteres.",
+                                        "El e-mail no debe ser mayor a 255 caracteres.",
+                                        "El formato del e-mail no es válido.",
+                                        "El e-mail es requerido."
+                                    ]
+                                }
+                            },
+                            "password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "La contraseña es requerida."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseLogin403Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Puede venir mensaje de Error accediendo a la cuenta o correo electrónico sin verificar.",
+                        "type": "string",
+                        "example": "Error accediendo a la cuenta"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseLogin500Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Mensaje que se obtiene de getMessage de la Excepción.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error en el servidor"
+                    },
+                    "errors": {
+                        "type": "null"
+                    },
+                    "data": {
+                        "type": "null"
+                    },
+                    "ex": {
+                        "description": "Se transforma a string el objeto de la Excepción ocurrida en el servidor",
+                        "type": "string",
+                        "example": "..."
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseLogout200Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "description": "Mensaje de respuesta",
+                        "type": "string",
+                        "example": "Cierre sesión exitosamente"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPassword200Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El token es válido"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPassword400Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El token es inválido"
+                    },
+                    "errors": {
+                        "properties": {
+                            "token": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "Debe ingresaer un token."
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPasswordChange200Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Su contraseña ha sido actualizada exitosamente"
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": "null"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPasswordChange400Schema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error al reiniciar contraseña.",
+                        "type": "string",
+                        "example": "Error al reiniciar contraseña."
+                    },
+                    "errors": {
+                        "properties": {
+                            "token": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "El token es requerido."
+                                }
+                            },
+                            "password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "La contraseña es requerida.",
+                                        "El formato del email no es válido.",
+                                        "La contraseña debe tener al menos 8 caracteres.",
+                                        "La contraseña debe tener máximo 16 caracteres."
+                                    ]
+                                }
+                            },
+                            "confirm_password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "La nueva contraseña es requerida.",
+                                        "La nueva contraseña debe tener al menos 8 caracteres.",
+                                        "La nueva contraseña debe tener máximo 16 caracteres.",
+                                        "La confirmación de la contraseña no coincide con la contraseña."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser200PaginateSchema": {
+                "description": "Respuesta de los datos encontrados paginados",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos Obtenidos Exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "El objeto que se devuelve tiene la estructura.",
+                        "properties": {
+                            "current_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "integer",
+                                            "example": "Marco"
+                                        },
+                                        "surnames": {
+                                            "type": "string",
+                                            "example": "Estrada López"
+                                        },
+                                        "emmail": {
+                                            "type": "string",
+                                            "example": "fericell2909@gmail.com"
+                                        },
+                                        "status_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "status": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Activo"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "roles": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Analista Tributario"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "first_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/user/paginate?per_page=1&current_page=1&page=1"
+                            },
+                            "from": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "last_page": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "last_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/user/paginate?per_page=1&current_page=1&page=3"
+                            },
+                            "links": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "url": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "example": "&laquo; Anterior"
+                                        },
+                                        "active": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "next_page_url": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/user/paginate?per_page=1&current_page=1&page=2"
+                            },
+                            "path": {
+                                "type": "string",
+                                "example": "http://127.0.0.1:8000/api/user/paginate"
+                            },
+                            "per_page": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "prev_page_url": {
+                                "type": "null",
+                                "example": null
+                            },
+                            "to": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "total": {
+                                "type": "integer",
+                                "example": 3
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser200ShowSchema": {
+                "description": "Respuesta Exitosa.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Los datos del usuario han sido proporcionados."
+                    },
+                    "errors": {
+                        "type": "null"
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Marco"
+                            },
+                            "surnames": {
+                                "type": "string",
+                                "example": "Estrada Lopez"
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "fericell2909@gmail.com"
+                            },
+                            "request_new_password": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "status_id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "status": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Activo"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "roles": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Analista Tributario"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser400ChangeStatusSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "id": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El ID del Usuario es requerido.",
+                                        "El ID del Usuario debe ser un número.",
+                                        "El ID del Usuario no existe."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser400CreateSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "name": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El nombre es requerido.",
+                                        "El nombre debe tener al menos 1 caracter.",
+                                        "El nombre no debe ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "surnames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "Los apellidos son requeridos.",
+                                        "Los apellidos deben tener al menos 1 caracter.",
+                                        "Los apellidos no deben ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "email": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El email es requerido.",
+                                        "El email debe tener al menos 1 caracter.",
+                                        "El email no debe ser mayor a 255 caracteres.",
+                                        "El email no es válido.",
+                                        "El email ya está en uso."
+                                    ]
+                                }
+                            },
+                            "roles.0.role_id": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El rol es requerido.",
+                                        "El rol no existe.",
+                                        "El ID del rol no debe estar repetido."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser400UpdateSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "names": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El nombre es requerido.",
+                                        "El nombre debe tener al menos 1 caracter.",
+                                        "El nombre no debe ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "surnames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "Los apellidos son requeridos.",
+                                        "Los apellidos deben tener al menos 1 caracter.",
+                                        "Los apellidos no deben ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "request_new_password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El request_new_password es requerido.",
+                                        "El request_new_password debe ser un booleano"
+                                    ]
+                                }
+                            },
+                            "roles.0.role_id": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El rol es requerido.",
+                                        "El rol no existe.",
+                                        "El ID del rol no debe estar repetido."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser400UpdatemeSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "names": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El nombre es requerido.",
+                                        "El nombre debe tener al menos 1 caracter.",
+                                        "El nombre no debe ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "surnames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "Los apellidos son requeridos.",
+                                        "Los apellidos deben tener al menos 1 caracter.",
+                                        "Los apellidos no deben ser mayor a 255 caracteres."
+                                    ]
+                                }
+                            },
+                            "request_new_password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "El request_new_password es requerido.",
+                                        "El request_new_password debe ser un booleano"
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseUser400UpdatemepasswordSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "password": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "La contraseña es requerida.",
+                                        "La contraseña debe tener al menos 8 caracteres.",
+                                        "La contraseña no debe ser mayor a 16 caracteres.",
+                                        "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseFile200CreateSchema": {
+                "description": "Respuesta de subida de Archivo Exitoso.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El archivo ha sido subido exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "nombre_original": "prueba_de_carga.xlsx",
+                            "tamanio": 8423,
+                            "extension": "xlsx",
+                            "tipo": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "hash": "3f46izaxxmfhS0CaH2xjlvgRy",
+                            "status_id": 1,
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Marco",
+                                "surnames": "Estrada López",
+                                "email": "fericell2909@gmail.com"
+                            },
+                            "status": {
+                                "id": 1,
+                                "name": "Activo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseFile200DeleteSchema": {
+                "description": "Respuesta de eliminación de Archivo.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "El archivo ha sido eliminado exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "nombre_original": "prueba_de_carga.xlsx",
+                            "tamanio": 8423,
+                            "extension": "xlsx",
+                            "tipo": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "hash": "3f46izaxxmfhS0CaH2xjlvgRy",
+                            "status_id": 1,
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Marco",
+                                "surnames": "Estrada López",
+                                "email": "fericell2909@gmail.com"
+                            },
+                            "status": {
+                                "id": 1,
+                                "name": "Inactivo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseFile200ShowSchema": {
+                "description": "Respuesta de Obtención de MetaDatos de Archivo Cargado.",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos encontrados exitosamente."
+                    },
+                    "errors": {
+                        "type": "null",
+                        "example": null
+                    },
+                    "data": {
+                        "description": "Se devuelve una estructura como la descrita.",
+                        "type": "object",
+                        "example": {
+                            "id": 1,
+                            "nombre_original": "prueba_de_carga.xlsx",
+                            "tamanio": 8423,
+                            "extension": "xlsx",
+                            "tipo": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "hash": "3f46izaxxmfhS0CaH2xjlvgRy",
+                            "status_id": 1,
+                            "user_id": 1,
+                            "user": {
+                                "id": 1,
+                                "name": "Marco",
+                                "surnames": "Estrada López",
+                                "email": "fericell2909@gmail.com"
+                            },
+                            "status": {
+                                "id": 1,
+                                "name": "Activo"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseFile400CreateSchema": {
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "message": {
+                        "description": "Error en los datos de validación.",
+                        "type": "string",
+                        "example": "Ha ocurrido un error de validación."
+                    },
+                    "errors": {
+                        "properties": {
+                            "name": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": [
+                                        "Por favor, seleccione un archivo",
+                                        "El campo debe ser un archivo.",
+                                        "El tamaño máximo del archivo permitido es de 2 MB.",
+                                        "El nombre del archivo debe ser menor a 250 caracteres."
+                                    ]
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "data": {
+                        "type": "null",
+                        "example": "null"
+                    }
+                },
+                "type": "object"
+            },
+            "ResponseRoles200ListSchema": {
+                "description": "Respuesta de los roles encontrados",
+                "properties": {
+                    "status": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Datos Obtenidos Exitosamente."
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 3
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Analista Tributario"
+                                },
+                                "code": {
+                                    "type": "string",
+                                    "example": "AT"
+                                },
+                                "guard_name": {
+                                    "type": "string",
+                                    "example": "api"
+                                },
+                                "status_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "status": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Activo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "Bearer token, Ex: Bearer <token>",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearer": {
+                "type": "apiKey",
+                "description": "Bearer token, Ex: Bearer <token>",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    ]
+}

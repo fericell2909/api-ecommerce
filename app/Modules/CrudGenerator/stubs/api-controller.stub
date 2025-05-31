@@ -1,0 +1,262 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespaceHttp\Requests;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+use {{modelNamespace}}{{modelName}};
+use {{repositoryNamespace}}{{repositoryName}};
+
+use {{storeRequestNamespace}}{{StoreRequestName}};
+
+use {{updateRequestNamespace}}{{UpdateRequestName}};
+
+use {{changestatusRequestNamespace}}{{ChangeStatusRequestName}};
+
+use Illuminate\Http\Request;
+
+use App\Traits\ResponseTrait;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+
+class DummyClass extends Controller
+{
+    use ResponseTrait;
+
+    public $repository;
+
+    public function __construct({{repositoryName}} $repository)
+    {
+        $this->middleware('auth:api', ['except' => ['']]);
+        $this->repository = $repository;
+    }
+
+    /**
+     * @OA\POST(
+     *     path="/api/{{path-api}}/create",
+     *     tags={"{{tags}}"},
+     *     summary="{{swagger-create-summary}}",
+     *     description="{{swagger-create-description}}",
+     *     operationId="create{{tags}}",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="category", type="string", example="Categoría 1"),
+     *          ),
+     *      ),
+     *      security={{"bearer":{}}},
+     *      @OA\Response(response=200, description="Respuesta de Creación de Comuna Exitoso.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200ShowSchema")),
+     *      @OA\Response(response=400, description="Error en los datos que se necesita para la solicitud.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}400CreateSchema")),
+     *      @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+     *      @OA\Response(response=404, description="No se encontró el recurso en el servidor", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+     *      @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+     * )
+     */
+    public function create({{StoreRequestName}} $request): JsonResponse
+    {
+        try
+        {
+            $obj = $this->repository->create($request->all());
+
+            if (is_null($obj))
+                return $this->responseError(null, 'Categoría no encontrada.', Response::HTTP_NOT_FOUND);
+
+            return $this->responseSuccess($obj, "La categoría ha sido creada exitosamente.");
+        } catch (\Exception $e) {
+			Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : create");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+		}
+    }
+
+
+    /**
+     * @OA\PUT(
+     *     path="/api/{{path-api}}/update",
+     *     tags={"{{tags}}"},
+     *     summary="{{swagger-update-summary}}",
+     *     description="{{swagger-update-description}}",
+     *     operationId="update{{tags}}",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="category", type="string", example="Categoría 1"),
+     *             @OA\Property(property="user_id", type="string", example=1),
+     *          ),
+     *      ),
+     *      security={{"bearer":{}}},
+     *      @OA\Response(response=200, description="Respuesta de Actualización Exitosa.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200ShowSchema")),
+     *      @OA\Response(response=400, description="Error en los datos que se necesita para la solicitud.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}400UpdateSchema")),
+     *      @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+     *      @OA\Response(response=404, description="No se encontró el recurso en el servidor", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+     *      @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+     * )
+     */
+    public function update({{UpdateRequestName}} $request): JsonResponse
+    {
+        try {
+
+            $data = $request->all();
+
+            $obj = $this->repository->update($data['id'], $data);
+
+            if (is_null($obj))
+                return $this->responseError(null, 'Categoría no encontrada.', Response::HTTP_NOT_FOUND);
+
+            return $this->responseSuccess($obj, 'La categoría ha sido actualizada exitosamente.');
+        } catch (\Exception $e) {
+            Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : update");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+        }
+    }
+
+
+    /**
+     * @OA\PUT(
+     *     path="/api/{{path-api}}/changestatus",
+     *     tags={"{{tags}}"},
+     *     summary="{{swagger-changestatus-summary}}",
+     *     description="{{swagger-changestatus-description}}",
+     *     operationId="changestatus{{tags}}",
+     *     @OA\RequestBody(
+     *          @OA\JsonContent(
+     *              type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *          ),
+     *      ),
+     *      security={{"bearer":{}}},
+     *      @OA\Response(response=200, description="Respuesta de Cambio de Estado Exitoso.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200ShowSchema")),
+     *      @OA\Response(response=400, description="Error en los datos que se necesita para la solicitud.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}400ChangeStatusSchema")),
+     *      @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+     *      @OA\Response(response=404, description="No se encontró el recurso en el servidor", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+     *      @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+     * )
+     */
+    public function changestatus({{ChangeStatusRequestName}} $request): JsonResponse
+    {
+
+        try {
+
+            $data = $request->all();
+
+            $obj = $this->repository->changestatus($data['id']);
+
+            if (is_null($obj))
+                return $this->responseError(null, 'Categoría no encontrada.', Response::HTTP_NOT_FOUND);
+
+            return $this->responseSuccess($obj, 'El estado ha sido actualizada exitosamente.');
+
+        } catch (\Exception $e) {
+            Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : changestatus");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+        }
+
+    }
+
+
+    /**
+    * @OA\GET(
+    *     path="/api/{{path-api}}/get/{id}",
+    *     tags={"{{tags}}"},
+    *     summary="{{swagger-show-summary}}",
+    *     description="{{swagger-show-description}}",
+    *     operationId="show{{tags}}",
+    *     security={{"bearer":{}}},
+    *      @OA\Parameter(name="id", description="id, eg; 1", required=true, in="path", @OA\Schema(type="integer")),
+    *      @OA\Response(response=200, description="Datos encontrados exitosamente.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200ShowSchema")),
+    *      @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+    *      @OA\Response(response=404, description="Datos  no encontrados", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+    *      @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+    * )
+    */
+    public function show($id): JsonResponse
+    {
+        try {
+
+            $data = $this->repository->getByID($id);
+
+            if (is_null($data)) {
+                return $this->responseError(null, 'Datos  no encontrados.', Response::HTTP_NOT_FOUND);
+            }
+
+            return $this->responseSuccess($data, 'Datos encontrados exitosamente.');
+         } catch (\Exception $e) {
+            Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : show");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+        }
+    }
+
+    /**
+    * @OA\GET(
+    *     path="/api/{{path-api}}/list",
+    *     tags={"{{tags}}"},
+    *     summary="{{swagger-list-summary}}",
+    *     description="{{swagger-list-description}}",
+    *     operationId="index{{tags}}",
+    *     security={{"bearer":{}}},
+    *     @OA\Response(response=200,description="Listado de todos los grupoes empresariales." , @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200ListSchema")),
+    *     @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+    *     @OA\Response(response=404, description="Datos  no encontrados", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+    *     @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+    * )
+    */
+    public function index(): JsonResponse
+    {
+        try {
+            $data = $this->repository->getAll();
+            return $this->responseSuccess($data, 'Datos Obtenidos Exitosamente.');
+        } catch (\Exception $e) {
+            Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : index");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+        }
+    }
+
+    /**
+    * @OA\POST(
+    *     path="/api/{{path-api}}/paginate",
+    *     tags={"{{tags}}"},
+    *     summary="{{swagger-search-summary}}",
+    *     description="{{swagger-search-description}}",
+    *     operationId="paginate{{tags}}",
+    *     security={{"bearer":{}}},
+    *     @OA\RequestBody(
+    *          @OA\JsonContent(
+    *              type="object",
+    *             @OA\Property(property="name", type="string", example=""),
+    *             @OA\Property(property="per_page", type="integer", example="1"),
+    *             @OA\Property(property="current_page", type="integer", example="1"),
+    *          ),
+    *      ),
+    *     @OA\Response(response=200,description="Listado como  un Arreglo de elementos Paginados.", @OA\JsonContent(ref="#/components/schemas/Response{{tags}}200PaginateSchema")),
+    *     @OA\Response(response=401, description="Acceso no Autenticado.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric401Schema")),
+    *     @OA\Response(response=404, description="Datos  no encontrados", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric404Schema")),
+    *     @OA\Response(response=500, description="Error Interno del Servidor.", @OA\JsonContent(ref="#/components/schemas/ResponseGeneric500Schema"))
+    * )
+    */
+    public function paginate(Request $request){
+
+        try {
+            $options = $request->all();
+            $data = $this->repository->getPaginatedData($options);
+            return $this->responseSuccess($data, 'Datos Obtenidos Exitosamente.');
+        } catch (\Exception $e) {
+            Log::error("ERROR :::  Controlador : DummyClass ::: Metodo : paginate");
+			Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+            return $this->responseWithErrorEx(null, $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR, $e->getTraceAsString());
+        }
+
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "fields": [
+        {
+            "name": "name@string||1000",
+            "type": "unique@nullable||false@comment||categoria"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "nullable||true"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\Comuna\\Models\\Comuna,name",
+                    "messages": "name.required#La Comuna es requerida.||name.max#El nombre de la comuna no debe ser mayor a 1000 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\Comuna\\Models\\Comuna,id",
+                    "messages": "id.required#El ID de la comuna es requerido.||id.integer#El ID de la comuna debe ser un número.||id.exists#La comuna no existe."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\Comuna\\Models\\Comuna,name",
+                    "messages": "name.required#La comuna es requerida.||name.max#La comuna no debe ser mayor a 1000 caracteres."
+                },
+                {
+                    "field": "user_id",
+                    "rules": "required|exists:App\\Modules\\Auth\\Models\\User,id",
+                    "messages": "user_id.required#El usuario es requerido.||user_id.exists#El usuario no existe."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\Comuna\\Models\\Comuna,id",
+                    "messages": "id.required#La comuna es requerida.||id.integer#El ID debe ser un número.||id.exists#La comuna no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea un nueva Comuna.",
+        "swagger-create-description" : "Crea un nueva Comuna.",
+        "swagger-update-summary" : "Actualiza una Comuna.",
+        "swagger-update-description" : "Actualiza una Comuna.",
+        "swagger-changestatus-summary" : "Cambia el estado de una Comuna.",
+        "swagger-changestatus-description" : "Cambia el estado de una Comuna de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de una Comuna.",
+        "swagger-show-description" : "Obtiene los datos de una Comuna.",
+        "swagger-list-summary" : "Listado de Comunas",
+        "swagger-list-description" : "Obtiene el Listado de todas las Comunas sin paginación.",
+        "swagger-search-summary" : "Listado de Comunas paginadas y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de todas las comunas paginadas y con búsqueda por criterios."
+
+    }
+}

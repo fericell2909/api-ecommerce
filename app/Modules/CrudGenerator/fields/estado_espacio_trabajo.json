@@ -1,0 +1,84 @@
+{
+    "fields": [
+        {
+            "name": "name@string||255",
+            "type": "unique@nullable||false@comment||nombre de los estados en el espacio de trabajo"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "default||1"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\EstadoEspacioTrabajo\\Models\\EstadoEspacioTrabajo,name",
+                    "messages": "name.required#El nombre del estado del espacio de trabajo es requerido.||name.max#El nombre del estado del espacio de trabajo no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\EstadoEspacioTrabajo\\Models\\EstadoEspacioTrabajo,id",
+                    "messages": "id.required#El ID del estado del espacio de trabajo es requerido.||id.integer#El ID del estado del espacio de trabajo debe ser un número.||id.exists#El ID del estado del espacio de trabajo no existe."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\EstadoEspacioTrabajo\\Models\\EstadoEspacioTrabajo,name",
+                    "messages": "name.required#El nombre del estado del espacio de trabajo es requerido.||name.max#El nombre del estado del espacio de trabajo no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\EstadoEspacioTrabajo\\Models\\EstadoEspacioTrabajo,id",
+                    "messages": "id.required#El ID del estado de espacio de trabajo es requerido.||id.integer#El ID del estado del espacio de trabajo debe ser un número.||id.exists#El ID del estado del espacio de trabajo no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea un nuevo estado de espacio de trabajo.",
+        "swagger-create-description" : "Crea un nuevo estado de espacio de trabajo.",
+        "swagger-update-summary" : "Actualiza un nuevo estado de espacio de trabajo.",
+        "swagger-update-description" : "Actualiza un nuevo estado de espacio de trabajo.",
+        "swagger-changestatus-summary" : "Cambia el estado de un estado de espacio de trabajo.",
+        "swagger-changestatus-description" : "Cambia el estado de un estado de espacio de trabajo  de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de un estado de espacio de trabajo.",
+        "swagger-show-description" : "Obtiene los datos de un estado de espacio de trabajo existente.",
+        "swagger-list-summary" : "Listado de Estado de espacios de trabajo",
+        "swagger-list-description" : "Obtiene el Listado de todos los estados de espacios de trabajo sin paginación.",
+        "swagger-search-summary" : "Listado de estados de espacios de trabajo paginados y búsqueda",
+        "swagger-search-description" : "Obtiene el listado de estados de espacios de trabajo paginados y con búsqueda por criterios."
+
+    }
+}

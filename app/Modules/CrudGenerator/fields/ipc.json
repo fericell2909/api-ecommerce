@@ -1,0 +1,208 @@
+{
+    "fields": [
+        {
+            "name": "anio_id@unsignedBigInteger",
+            "type": "nullable||false@comment||Anio del registro."
+        },
+        {
+            "name": "jan@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Enero."
+        },
+        {
+            "name": "feb@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Febrero."
+        },
+        {
+            "name": "mar@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Marzo."
+        },
+        {
+            "name": "apr@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Abril."
+        },
+        {
+            "name": "may@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Mayo."
+        },
+        {
+            "name": "jun@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Junio."
+        },
+        {
+            "name": "jul@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Julio."
+        },
+        {
+            "name": "aug@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Agosto."
+        },
+        {
+            "name": "sep@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Septiembre."
+        },
+        {
+            "name": "oct@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Octubre."
+        },
+        {
+            "name": "nov@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Noviembre."
+        },
+        {
+            "name": "dec@decimal||5,2",
+            "type": "nullable||false@comment||Valor númerico para Diciembre."
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "nullable||false@comment||Estado del registro.@default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "nullable||false@comment||Ultimo Usuario de modificación."
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        },
+        {
+            "column": "anio_id",
+            "references": "id",
+            "on": "anios"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        },
+        {
+            "name": "anios",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Anio\\Models\\Anio"
+        }
+    ],
+    "validations":
+        {
+            "store":
+                [
+                    {
+                        "field": "anio_id",
+                        "rules": "required|numeric|exists:App\\Modules\\Anio\\Models\\Anio,id",
+                        "messages": "anio_id.required#El año es requerido.||anio_id.numeric#El año debe ser un número.||anio_id.exists#El año no existe."
+                    },
+                    {
+                        "field": "jan",
+                        "rules": "required|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "jan.required#El valor en Enero es requerido.||jan.min#El mínimo valor de Enero es 0.01.||jan.regex#El valor en Enero debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "feb",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "feb.required#El valor en Febrero es requerido.||feb.numeric#El valor en Febrero debe ser un número.||feb.min#El mínimo valor de Febrero es 0.01.||feb.regex#El valor en Febrero debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "mar",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "mar.required#El valor en Marzo es requerido.||mar.numeric#El valor en Marzo debe ser un número.||mar.min#El mínimo valor de Marzo es 0.01.||mar.regex#El valor en Marzo debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "apr",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "apr.required#El valor en Abril es requerido.||apr.numeric#El valor en Abril debe ser un número.||apr.min#El mínimo valor de Abril es 0.01.||apr.regex#El valor en Abril debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "may",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "may.required#El valor en Mayo es requerido.||may.numeric#El valor en Mayo debe ser un número.||may.min#El mínimo valor de Mayo es 0.01.||may.regex#El valor en Mayo debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "jun",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "jun.required#El valor en Junio es requerido.||jun.numeric#El valor en Junio debe ser un número.||jun.min#El mínimo valor de Junio es 0.01.||jun.regex#El valor en Junio debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "jul",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "jul.required#El valor en Julio es requerido.||jul.numeric#El valor en Julio debe ser un número.||jul.min#El mínimo valor de Julio es 0.01.||jul.regex#El valor en Julio debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "aug",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "aug.required#El valor en Agosto es requerido.||aug.numeric#El valor en Agosto debe ser un número.||aug.min#El mínimo valor de Agosto es 0.01.||aug.regex#El valor en Agosto debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "sep",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "sep.required#El valor en Septiembre es requerido.||sep.numeric#El valor en Septiembre debe ser un número.||sep.min#El mínimo valor de Septiembre es 0.01.||sep.regex#El valor en Septiembre debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "oct",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "oct.required#El valor en Octubre es requerido.||oct.numeric#El valor en Octubre debe ser un número.||oct.min#El mínimo valor de Octubre es 0.01.||oct.regex#El valor en Octubre debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "nov",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "nov.required#El valor en Noviembre es requerido.||nov.numeric#El valor en Noviembre debe ser un número.||nov.min#El mínimo valor de Noviembre es 0.01.||nov.regex#El valor en Noviembre debe ser un número con dos decimales."
+                    },
+                    {
+                        "field": "dec",
+                        "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                        "messages": "dec.required#El valor en Diciembre es requerido.||dec.numeric#El valor en Diciembre debe ser un número.||dec.min#El mínimo valor de Diciembre es 0.01.||dec.regex#El valor en Diciembre debe ser un número con dos decimales."
+                    }
+                ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\IPC\\Models\\IPC,id",
+                    "messages": "id.required#El ID del IPC es requerido.||id.integer#EL ID del IPC es un número.||id.exists#EL ID del IPC no existe."
+                },
+                {
+                    "field": "value",
+                    "rules": "required|numeric|min:0.01|regex:^\\d+(\\.\\d{1,2})?$",
+                    "messages": "value.required#El valor del IPC es requerido.||value.numeric#El valor del IPC debe ser un número.||value.min#El valor del IPC debe ser mínimo es 0.001.||value.regex#El valor del IPC debe ser un número con dos decimales."
+                },
+                {
+                    "field": "month_id",
+                    "rules": "required|integer|exists:App\\Modules\\Month\\Models\\Month,id",
+                    "messages": "month_id.required#El mes es requerido.||month_id.integer#El mes debe ser un número.||month_id.exists#El mes no existe."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\Month\\Models\\Month,id",
+                    "messages": "id.required#El ID del IPC es requerido.||id.integer#EL ID del IPC debe ser un número.||id.exists#EL ID del IPC no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "",
+        "swagger-create-description" : "",
+        "swagger-update-summary" : "Actualiza un dato de IPC.",
+        "swagger-update-description" : "Actualiza un dato de IPC.",
+        "swagger-changestatus-summary" : "Cambia el estado de un IPC.",
+        "swagger-changestatus-description" : "Cambia el estado un IPC de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de un IPC.",
+        "swagger-show-description" : "Obtiene los datos de un IPC.",
+        "swagger-list-summary" : "Listado de IPCs.",
+        "swagger-list-description" : "Obtiene el Listado de todos los IPCs.",
+        "swagger-search-summary" : "Listado de IPCs paginados y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de IPCs paginados y con búsqueda por criterios."
+
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "fields": [
+        {
+            "name": "category@string||255",
+            "type": "unique@nullable||false@comment||categoria"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": ""
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "category",
+                    "rules": "required|max:255|unique:App\\Modules\\Category\\Models\\Category,category",
+                    "messages": "category.required#La categoría es requerida.||category.max#La categoría no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\Category\\Models\\Category,id",
+                    "messages": "id.required#El ID de categoría es requerido.||category.integer#La categoría debe ser un número.||id.exists#La categoría no existe."
+                },
+                {
+                    "field": "category",
+                    "rules": "required|max:255|unique:App\\Modules\\Category\\Models\\Category,category",
+                    "messages": "category.required#La categoría es requerida.||category.max#La categoría no debe ser mayor a 255 caracteres."
+                },
+                {
+                    "field": "user_id",
+                    "rules": "required|exists:App\\Modules\\Auth\\Models\\User,id",
+                    "messages": "user_id.required#El usuario es requerido.||user_id.exists#El usuario no existe."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\Category\\Models\\Category,id",
+                    "messages": "id.required#El ID de categoría es requerido.||category.integer#La categoría debe ser un número.||id.exists#La categoría no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea una nueva categoría.",
+        "swagger-create-description" : "Crea una nueva categoría.",
+        "swagger-update-summary" : "Actualiza una categoría.",
+        "swagger-update-description" : "Actualiza una categoría.",
+        "swagger-changestatus-summary" : "Cambia el estado de una categoría.",
+        "swagger-changestatus-description" : "Cambia el estado de una categoría de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de una categoría.",
+        "swagger-show-description" : "Obtiene los datos de una categoría.",
+        "swagger-list-summary" : "Listado de Categorías.",
+        "swagger-list-description" : "Obtiene el Listado de todas las categorías sin paginación.",
+        "swagger-search-summary" : "Listado de Categorías paginadas y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de todas las categorías paginadas y con búsqueda por criterios."
+
+    }
+}

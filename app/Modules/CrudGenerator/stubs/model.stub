@@ -1,0 +1,30 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+{{useSoftDeletes}}
+class DummyClass extends Model
+{
+    {{softDeletes}}/**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '{{table}}';
+
+     CONST TABLE='{{table}}';
+
+    {{primaryKey}}
+
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = {{fillable}};
+
+    protected $hidden = ['created_at','updated_at'];
+
+    {{relationships}}
+}

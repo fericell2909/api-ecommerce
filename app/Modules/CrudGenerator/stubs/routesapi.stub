@@ -1,0 +1,20 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{controllerNamespace}}{{controllerName}};
+
+Route::prefix('/{{names}}')
+	->middleware('auth:api',)
+	->group(function () {
+
+    Route::post('/create', [{{controllerName}}::class, 'create']);
+	Route::put('/update', [{{controllerName}}::class, 'update']);
+	Route::put('/changestatus', [{{controllerName}}::class, 'changestatus']);
+
+    Route::get('/get/{id}', [{{controllerName}}::class, 'show']);
+    Route::get('/list', [{{controllerName}}::class, 'index']);
+
+    Route::post('/paginate', [{{controllerName}}::class, 'paginate']);
+
+});
+

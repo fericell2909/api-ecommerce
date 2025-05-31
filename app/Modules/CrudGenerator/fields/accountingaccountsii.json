@@ -1,0 +1,97 @@
+{
+    "fields": [
+        {
+            "name": "codigo_cuenta_sii@string||15",
+            "type": "unique@nullable||false@comment||Codigo de cuenta contable según el SII."
+        },
+        {
+            "name": "nombre_cuenta_sii@string||500",
+            "type": "nullable||false@comment||Nombre de cuenta contable según el SII."
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": ""
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "codigo_cuenta_sii",
+                    "rules": "required|max:15|unique:App\\Modules\\AccountingAccountSII\\Models\\AccountingAccountSII,codigo_cuenta_sii",
+                    "messages": "codigo_cuenta_sii.required#El código de cuenta del SII es requerido.||codigo_cuenta_sii.max#El código de cuenta del SII no debe ser mayor a los 15 caracteres."
+                },
+                {
+                    "field": "nombre_cuenta_sii",
+                    "rules": "required|max",
+                    "messages": "nombre_cuenta_sii.required#El nombre de cuenta del SII es requerido.||nombre_cuenta_sii.max#El nombre de cuenta del SII no debe exceder los 500 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\AccountingAccountSII\\Models\\AccountingAccountSII,id",
+                    "messages": "id.required#El ID de la cuenta contable es requerido.||id.integer#El ID de la cuenta contable debe ser un número.||id.exists#El ID de la cuenta contable no existe."
+                },
+                {
+                    "field": "codigo_cuenta_sii",
+                    "rules": "required|max:15|unique:App\\Modules\\AccountingAccountSII\\Models\\AccountingAccountSII,codigo_cuenta_sii",
+                    "messages": "codigo_cuenta_sii.required#El código de cuenta del SII es requerido.||codigo_cuenta_sii.max#El código de cuenta del SII no debe ser mayor a los 15 caracteres."
+                },
+                {
+                    "field": "nombre_cuenta_sii",
+                    "rules": "required|max",
+                    "messages": "nombre_cuenta_sii.required#El nombre de cuenta del SII es requerido.||nombre_cuenta_sii.max#El nombre de cuenta del SII no debe exceder los 500 caracteres."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\AccountingAccountSII\\Models\\AccountingAccountSII,id",
+                    "messages": "id.required#El ID de la cuenta contable es requerido.||id.integer#El ID de la cuenta contable debe ser un número.||id.exists#El ID de la cuenta contable no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea una nueva cuenta contable del SII.",
+        "swagger-create-description" : "Crea una nueva cuenta contable del SII.",
+        "swagger-update-summary" : "Actualiza una cuenta contable del SII.",
+        "swagger-update-description" : "Actualiza una cuenta contable del SII.",
+        "swagger-changestatus-summary" : "Cambia el estado de una cuenta contable del SII.",
+        "swagger-changestatus-description" : "Cambia el estado de una cuenta contable del SII de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de una cuenta contable del SII.",
+        "swagger-show-description" : "Obtiene los datos de una cuenta contable del SII.",
+        "swagger-list-summary" : "Listado de Cuentas Contables del SII.",
+        "swagger-list-description" : "Obtiene el Listado de todas las cuentas contables del SII sin paginación.",
+        "swagger-search-summary" : "Listado de cuentas contables del SII paginadas y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de todas las cuentas contables del SII paginadas y con búsqueda por criterios."
+    }
+}

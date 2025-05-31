@@ -1,0 +1,84 @@
+{
+    "fields": [
+        {
+            "name": "name@string||255",
+            "type": "unique@nullable||false@comment||nombre de los tipos de archivos a cargar en el espacio de trabajo"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "default||1"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\TipoArchivoEspacioTrabajo\\Models\\TipoArchivoEspacioTrabajo,name",
+                    "messages": "name.required# del tipo de archivo de espacio de trabajo  es requerido.||name.max#El nombre del tipo de archivo de espacio de trabajo no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\TipoArchivoEspacioTrabajo\\Models\\TipoArchivoEspacioTrabajo,id",
+                    "messages": "id.required#El ID del tipo de archivo de espacio de trabajo es requerido.||id.integer#El ID del tipo de archibo de espacio de trabajo debe ser un número.||id.exists#El ID del tipo de archivo del espacio de trabajo no existe."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\TipoArchivoEspacioTrabajo\\Models\\TipoArchivoEspacioTrabajo,name",
+                    "messages": "name.required# del tipo de archivo de espacio de trabajo  es requerido.||name.max#El nombre del tipo de archivo de espacio de trabajo no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\TipoArchivoEspacioTrabajo\\Models\\TipoArchivoEspacioTrabajo,id",
+                    "messages": "id.required#El ID del tipo de archivo de espacio de trabajo es requerido.||id.integer#El ID del tipo de archibo de espacio de trabajo debe ser un número.||id.exists#El ID del tipo de archivo del espacio de trabajo no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea un nuevo tipo de archivo de espacio de trabajo.",
+        "swagger-create-description" : "Crea un nuevo tipo de archivo de espacio de trabajo.",
+        "swagger-update-summary" : "Actualiza un nuevo tipo de archivo de espacio de trabajo.",
+        "swagger-update-description" : "Actualiza un nuevo tipo de archivo de espacio de trabajo.",
+        "swagger-changestatus-summary" : "Cambia el estado de un nuevo tipo de archivo de espacio de trabajo.",
+        "swagger-changestatus-description" : "Cambia el estado de un nuevo tipo de archivo de espacio de trabajo  de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de un tipo de archivo de espacio de trabajo.",
+        "swagger-show-description" : "Obtiene los datos de un tipo de archivo de espacio de trabajo existente.",
+        "swagger-list-summary" : "Listado de Tipo de archivos de espacios de trabajo",
+        "swagger-list-description" : "Obtiene el Listado de todos los tipos de trabajo sin paginación.",
+        "swagger-search-summary" : "Listado de tipos de archivos de espacios de trabajo paginados y búsqueda",
+        "swagger-search-description" : "Obtiene el listado de tipos de archivos de espacios de trabajo paginados y con búsqueda por criterios."
+
+    }
+}

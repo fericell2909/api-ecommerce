@@ -1,0 +1,83 @@
+{
+    "fields": [
+        {
+            "name": "value@decimal||10,0",
+            "type": "unique@nullable||false@comment||Año."
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1@nullable||true@comment||Estado del Año."
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "nullable||true"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "value",
+                    "rules": "required|min:1|unique:App\\Modules\\Anio\\Models\\Anio,value|regex:/^\\d+$/",
+                    "messages": "value.required#El valor del año es requerido.||value.min#El valor del año debe ser mínimo 1.||value.unique#El valor del año ya existe.||value.regex#El valor del año debe ser un número sin decimales."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|exists:App\\Modules\\Anio\\Models\\Anio,id",
+                    "messages": "id.required#El ID del año es requerido.||id.exists#El ID del año no existe."
+                },
+                {
+                    "field": "value",
+                    "rules": "required|min:1|unique:App\\Modules\\Anio\\Models\\Anio,value|regex:/^\\d+$/",
+                    "messages": "value.required#El valor del año es requerido.||value.min#El valor del año debe ser mínimo 1.||value.unique#El valor del año ya existe.||value.regex#El valor del año debe ser un número sin decimales."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|exists:App\\Modules\\Anio\\Models\\Anio,id",
+                    "messages": "id.required#El ID del año es requerido.||id.exists#El ID del año no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea un nuevo Año.",
+        "swagger-create-description" : "Crea un nuevo Año.",
+        "swagger-update-summary" : "Actualiza un Año.",
+        "swagger-update-description" : "Actualiza un Año.",
+        "swagger-changestatus-summary" : "Cambia el estado de un Año.",
+        "swagger-changestatus-description" : "Cambia el estado de un Año de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de un año.",
+        "swagger-show-description" : "Obtiene los datos de una Año.",
+        "swagger-list-summary" : "Listado de años",
+        "swagger-list-description" : "Obtiene el Listado de todos los años sin paginación.",
+        "swagger-search-summary" : "Listado de Años paginados y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de todas los años paginadas y con búsqueda por criterios."
+    }
+}

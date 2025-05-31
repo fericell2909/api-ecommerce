@@ -1,0 +1,84 @@
+{
+    "fields": [
+        {
+            "name": "name@string||255",
+            "type": "unique@nullable||false@comment||nombre de moneda de declaración"
+        },
+        {
+            "name": "status_id@unsignedBigInteger",
+            "type": "default||1"
+        },
+        {
+            "name": "user_id@unsignedBigInteger",
+            "type": "default||1"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "user_id",
+            "references": "id",
+            "on": "users"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "user",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Auth\\Models\\User"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Modules\\Api\\Models\\Status"
+        }
+    ],
+    "validations":
+        {
+            "store": [
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\MonedaDeclaracion\\Models\\MonedaDeclaracion,name",
+                    "messages": "name.required#El nombre es requerido.||name.max#El nombre no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "update": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\MonedaDeclaracion\\Models\\MonedaDeclaracion,id",
+                    "messages": "id.required#El ID de la moneda de declaración es requerido.||id.integer#El ID de la moneda de declaración debe ser un número.||id.exists#La moneda de declaración no existe."
+                },
+                {
+                    "field": "name",
+                    "rules": "required|max:255|unique:App\\Modules\\MonedaDeclaracion\\Models\\MonedaDeclaracion,name",
+                    "messages": "name.required#El nombre es requerido.||name.max#El nombre no debe ser mayor a 255 caracteres."
+                }
+            ],
+            "delete": [
+                {
+                    "field": "id",
+                    "rules": "required|integer|exists:App\\Modules\\MonedaDeclaracion\\Models\\MonedaDeclaracion,id",
+                    "messages": "id.required#El ID de la moneda de declaración es requerido.||id.integer#El ID de la moneda de declaración debe ser un número.||id.exists#El ID de la moneda de declaración no existe."
+                }
+            ]
+        },
+    "swagger" : {
+        "swagger-create-summary" : "Crea una nueva moneda de declaración.",
+        "swagger-create-description" : "Crea una nueva moneda de declaración.",
+        "swagger-update-summary" : "Actualiza una moneda de declaración.",
+        "swagger-update-description" : "Actualiza una moneda de declaración.",
+        "swagger-changestatus-summary" : "Cambia el estado de uuna moneda de declaración.",
+        "swagger-changestatus-description" : "Cambia el estado de una una moneda de declaración de activo/inactivo.",
+        "swagger-show-summary" : "Obtiene los datos de una una moneda de declaración.",
+        "swagger-show-description" : "Obtiene los datos de una una moneda de declaración.",
+        "swagger-list-summary" : "Listado de Monedas de Declaración",
+        "swagger-list-description" : "Obtiene el Listado de todas las monedas de declaración sin paginación.",
+        "swagger-search-summary" : "Listado de Monedas de Declaración paginadas y búsqueda",
+        "swagger-search-description" : "Obtiene el Listado de todas las monedas de declaración paginadas y con búsqueda por criterios."
+
+    }
+}
