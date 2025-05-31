@@ -155,22 +155,5 @@ class CreatePermissionTables extends Migration
     private function actions_roles(&$table)
     {
 
-        $table->boolean('can_list_all_company')->default(0)->nullable(false);
-        $table->boolean('can_list_unique_company')->default(0)->nullable(false);
-        $table->boolean('can_add_company')->default(0)->nullable(false);
-        $table->boolean('can_view_company')->default(0)->nullable(false);
-        $table->boolean('can_edit_company')->default(0)->nullable(false);
-        $table->boolean('can_change_company_status')->default(0)->nullable(false);
-        $table->boolean('can_change_company_user')->default(0)->nullable(false);
-        $table->boolean('can_change_plan')->default(0)->nullable(false);
-        $table->boolean('can_list_company_rol')->default(0)->nullable(false);
-        $table->boolean('can_supplier_upload')->default(0)->nullable(false)->comment('upload .xlsx to massive insert in table suppliers');
-        $table->boolean('can_supplier_add')->default(1)->nullable(false)->comment('can add new supplier');
-        $table->boolean('can_supplier_favorite_add')->default(0)->nullable(false)->comment('can add new   favorite supplier');
-        $table->boolean('can_supplier_edit')->default(1)->nullable(false)->comment('can edit supplier');
-        $table->boolean('can_supplier_view')->default(1)->nullable(false)->comment('can view supplier');
-        $table->boolean('can_documents_add')->default(1)->nullable(false)->comment('can add documents');
-        $table->boolean('can_documents_edit')->default(1)->nullable(false)->comment('can edit documents');
-        $table->boolean('can_documents_view')->default(1)->nullable(false)->comment('can edit documents');
     }
 }

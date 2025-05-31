@@ -1452,6 +1452,84 @@
                     }
                 ]
             }
+        },
+        "/api/shop/categories": {
+            "get": {
+                "tags": [
+                    "Ecommerce Público"
+                ],
+                "summary": "Obtiene los datos de un Usuario por su ID.",
+                "description": "Obtiene los datos de un Usuario por su ID. Se necesita estar autenticado para realizar la solicitud. El Rol Supervisor Tributario tiene acceso a este endpoint.",
+                "operationId": "listCategories",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id, eg; 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos encontrados exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseUser200ShowSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Acceso no Autenticado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric401Schema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso restringido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric403Schema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Datos  no encontrados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric404Schema"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error Interno del Servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseGeneric500Schema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
