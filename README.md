@@ -69,6 +69,14 @@ php artisan l5-swagger:generate
 
 ```c
 
-    Enviar email to send the last .env
+    cp .env.marco.local .env
 
 ```
+
+
+| 🖼 Inicio | 🛒 Ecommerce |
+|-----------------------|----------------------|
+
+<img src="/imagesrepo/main.png" alt="Imagenes en Swagger" />
+
+<img  src="/imagesrepo/ecommerce.png" alt="Ecommerce" />
